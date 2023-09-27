@@ -1,6 +1,5 @@
 rootProject.name = 'coffeecat'
-include 'core'
-include 'batch'
-include 'api'
+include 'coffeecat-boot-user'
+include 'coffeecat-data-user'
 
 
