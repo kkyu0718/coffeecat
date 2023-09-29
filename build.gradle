@@ -50,7 +50,7 @@ project(':coffeecat-boot-user') {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         runtimeOnly 'com.mysql:mysql-connector-j'
 
-        compileOnly project(':coffeecat-data-user')
+        implementation project(':coffeecat-data-user')
     }
 }
 
