@@ -1,5 +1,7 @@
 rootProject.name = 'coffeecat'
 include 'coffeecat-boot-user'
 include 'coffeecat-data-user'
+include 'coffeecat-boot-review'
+include 'coffeecat-data-review'
 
 

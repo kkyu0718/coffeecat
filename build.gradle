@@ -38,6 +38,9 @@ subprojects {
 
         // database
         implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+        // test
+        testImplementation 'com.h2database:h2'
     }
 
     tasks.named('test') {
@@ -58,5 +61,19 @@ project(':coffeecat-data-user') {
     bootJar {enabled = false}
 
     //TODO: enabled=false 확인 필요
+    jar {enabled = true}
+}
+
+project(':coffeecat-boot-review') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        runtimeOnly 'com.mysql:mysql-connector-j'
+
+        implementation project(':coffeecat-data-review')
+    }
+}
+
+project(':coffeecat-data-review') {
+    bootJar {enabled = false}
     jar {enabled = true}
 }
