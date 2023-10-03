@@ -77,3 +77,17 @@ project(':coffeecat-data-review') {
     bootJar {enabled = false}
     jar {enabled = true}
 }
+
+project(':coffeecat-boot-capsule') {
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        runtimeOnly 'com.mysql:mysql-connector-j'
+
+        implementation project(':coffeecat-data-capsule')
+    }
+}
+
+project(':coffeecat-data-capsule') {
+    bootJar {enabled = false}
+    jar {enabled = true}
+}

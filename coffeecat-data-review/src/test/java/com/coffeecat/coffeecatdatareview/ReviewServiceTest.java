@@ -1,6 +1,7 @@
 package com.coffeecat.coffeecatdatareview;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +26,7 @@ class ReviewServiceTest {
                 .capsuleId(1)
                 .createdAt(LocalDateTime.now())
                 .updatedAt(LocalDateTime.now())
-                .taste(Taste.builder()
+                .taste(Review.Taste.builder().build().builder()
                         .reviewAcidity(1)
                         .reviewBitterness(2)
                         .reviewBody(3)

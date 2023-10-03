@@ -30,15 +30,15 @@ public class Review {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-//    @Embeddable
-//    @Data
-//    @NoArgsConstructor
-//    @AllArgsConstructor
-//    @Builder
-//    public class Taste {
-//        private int reviewBitterness;
-//        private int reviewBody;
-//        private int reviewAcidity;
-//        private int reviewRoasting;
-//    }
+    @Embeddable
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Taste {
+        private int reviewBitterness;
+        private int reviewBody;
+        private int reviewAcidity;
+        private int reviewRoasting;
+    }
 }

@@ -3,5 +3,7 @@ include 'coffeecat-boot-user'
 include 'coffeecat-data-user'
 include 'coffeecat-boot-review'
 include 'coffeecat-data-review'
+include 'coffeecat-boot-capsule'
+include 'coffeecat-data-capsule'
 
 
