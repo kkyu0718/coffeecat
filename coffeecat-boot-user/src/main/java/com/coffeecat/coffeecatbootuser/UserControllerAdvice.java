@@ -1,6 +1,5 @@
 package com.coffeecat.coffeecatbootuser;
 
-import com.coffeecat.coffeecatdatauser.UserException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;

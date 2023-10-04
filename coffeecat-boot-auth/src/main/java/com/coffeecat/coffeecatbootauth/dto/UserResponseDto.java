@@ -1,4 +1,4 @@
-package com.coffeecat.coffeecatbootuser;
+package com.coffeecat.coffeecatbootauth.dto;
 
 import com.coffeecat.coffeecatdatauser.User;
 import lombok.Builder;

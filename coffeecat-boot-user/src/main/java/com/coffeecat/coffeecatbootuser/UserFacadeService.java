@@ -14,6 +14,6 @@ public class UserFacadeService {
     }
 
     public User getUserById(int userId) {
-        return userService.findUserById(userId);
+        return userService.findUserById(userId).orElseThrow(UserException.UserNotFoundException::new);
     }
 }

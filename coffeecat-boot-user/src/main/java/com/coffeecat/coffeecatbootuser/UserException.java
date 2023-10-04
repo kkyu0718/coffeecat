@@ -1,8 +1,8 @@
-package com.coffeecat.coffeecatdatauser;
+package com.coffeecat.coffeecatbootuser;
 
-public class UserException extends RuntimeException {
+public abstract class UserException extends RuntimeException {
+    protected String message;
     public static class UserNotFoundException extends UserException {
-        private String message;
         public UserNotFoundException() {
             this.message = "User Not Found";
         }

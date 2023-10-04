@@ -97,6 +97,9 @@ project(':coffeecat-boot-auth') {
         implementation 'org.springframework.boot:spring-boot-starter-web'
         runtimeOnly 'com.mysql:mysql-connector-j'
 
+        // password encoder
+        implementation "org.springframework.boot:spring-boot-starter-security"
+
         implementation project(':coffeecat-data-user')
     }
 }
