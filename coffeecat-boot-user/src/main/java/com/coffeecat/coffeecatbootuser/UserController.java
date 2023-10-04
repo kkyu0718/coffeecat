@@ -1,22 +1,24 @@
 package com.coffeecat.coffeecatbootuser;
 
 import com.coffeecat.coffeecatdatauser.User;
-import com.coffeecat.coffeecatdatauser.UserService;
+import com.coffeecat.coffeecatdatauser.UserException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+    private final UserFacadeService userFacadeService;
 
-    @GetMapping("/user")
-    public List<User> userTest() {
-
-        return userService.findAll();
+    @GetMapping("/{userId}")
+    public UserResponseDto getUserById(@PathVariable int userId) {
+        return UserResponseDto.fromEntity(userFacadeService.getUserById(userId));
     }
+
 }
