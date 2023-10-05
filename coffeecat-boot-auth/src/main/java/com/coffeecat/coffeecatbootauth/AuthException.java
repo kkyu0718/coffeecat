@@ -1,23 +1,22 @@
 package com.coffeecat.coffeecatbootauth;
 
-public abstract class AuthException extends RuntimeException {
-    protected String message;
+public abstract class AuthException {
 
-    public static class UserDuplicatedException extends AuthException {
+    public static class UserDuplicatedException extends RuntimeException{
         public UserDuplicatedException() {
-            this.message = "User Duplicated";
+            super("User Duplicated");
         }
     }
 
-    public static class UserNotFoundByNicknameException extends AuthException {
+    public static class UserNotFoundByNicknameException extends RuntimeException {
         public UserNotFoundByNicknameException() {
-            this.message = "User not found by nickname";
+            super("User not found by nickname");
         }
     }
 
-    public static class WrongPasswordException extends AuthException {
+    public static class WrongPasswordException extends RuntimeException {
         public WrongPasswordException() {
-            this.message = "Wrong password";
+            super("Wrong password");
         }
     }
 }

@@ -3,24 +3,26 @@ package com.coffeecat.coffeecatbootauth.authservice;
 import com.coffeecat.coffeecatbootauth.AuthException;
 import com.coffeecat.coffeecatdatauser.User;
 import com.coffeecat.coffeecatdatauser.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.function.Function;
 
 @Service
-public class OAuthService implements AuthService {
+@Slf4j
+public class UserPasswordService implements AuthService {
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public OAuthService(UserService userService, PasswordEncoder passwordEncoder) {
+    public UserPasswordService(UserService userService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @Override
     public boolean supports(String socialType) {
-        return "OAUTH".equals(socialType);
+        return "USERPASSWORD".equals(socialType);
     }
 
     @Override
@@ -42,7 +44,9 @@ public class OAuthService implements AuthService {
 
     @Override
     public User signup(String userIdentifier, String userPassword, String userSocialType) {
-        userService.findUserByUserIdentifier(userIdentifier).orElseThrow(AuthException.UserDuplicatedException::new);
+        if(userService.findUserByUserIdentifier(userIdentifier).isPresent()){
+            throw new AuthException.UserDuplicatedException();
+        }
 
         return userService.createUser(userIdentifier, passwordEncoder.encode(userPassword), userSocialType);
     }

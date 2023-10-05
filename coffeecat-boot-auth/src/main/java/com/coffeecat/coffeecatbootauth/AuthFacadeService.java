@@ -3,41 +3,43 @@ package com.coffeecat.coffeecatbootauth;
 import com.coffeecat.coffeecatbootauth.authservice.AuthService;
 import com.coffeecat.coffeecatbootauth.authservice.GoogleService;
 import com.coffeecat.coffeecatbootauth.authservice.KakaoService;
-import com.coffeecat.coffeecatbootauth.authservice.OAuthService;
-import com.coffeecat.coffeecatbootauth.dto.LoginResponseDto;
+import com.coffeecat.coffeecatbootauth.authservice.UserPasswordService;
 import com.coffeecat.coffeecatbootauth.dto.UserResponseDto;
+import com.coffeecat.coffeecatdatauser.User;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@Slf4j
 public class AuthFacadeService {
-    private final OAuthService oAuthService;
+    private final UserPasswordService userPasswordService;
     private final KakaoService kakaoService;
     private final GoogleService googleService;
 
-    public AuthFacadeService(OAuthService OAuthService, KakaoService kakaoService, GoogleService googleService) {
-        this.oAuthService = OAuthService;
+    public AuthFacadeService(UserPasswordService UserPasswordService, KakaoService kakaoService, GoogleService googleService) {
+        this.userPasswordService = UserPasswordService;
         this.kakaoService = kakaoService;
         this.googleService = googleService;
     }
 
-    public LoginResponseDto login(String userIdentifier, String userPassword, String userSocialType) {
+    public User login(String userIdentifier, String userPassword, String userSocialType) {
         AuthService authService = authServiceFactory(userSocialType);
+        log.info("[AuthFacadeService] login {}", authService);
 
-        // authentication by redis session
-        // give token
-
+        return authService.login(userIdentifier, userPassword);
     }
 
-    public UserResponseDto signup(String userIdentifier, String userPassword, String userSocialType) {
+    public User signup(String userIdentifier, String userPassword, String userSocialType) {
         AuthService authService = authServiceFactory(userSocialType);
+        log.info("[AuthFacadeService] signup {}", authService);
 
-        return UserResponseDto.fromEntity(authService.signup(userIdentifier, userPassword, userSocialType));
+        return authService.signup(userIdentifier, userPassword, userSocialType);
     }
 
     private AuthService authServiceFactory(String socialType) {
-        return List.of(oAuthService, kakaoService, googleService).stream()
+        return List.of(userPasswordService, kakaoService, googleService).stream()
                 .filter(service -> service.supports(socialType))
                 .findAny()
                 .orElseThrow(IllegalArgumentException::new);
