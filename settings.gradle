@@ -6,5 +6,6 @@ include 'coffeecat-data-review'
 include 'coffeecat-boot-capsule'
 include 'coffeecat-data-capsule'
 include 'coffeecat-boot-auth'
+include 'coffeecat-boot-gateway'
 
 

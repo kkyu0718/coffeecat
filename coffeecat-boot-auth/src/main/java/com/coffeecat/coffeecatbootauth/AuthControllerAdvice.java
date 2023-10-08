@@ -12,4 +12,10 @@ public class AuthControllerAdvice extends ResponseEntityExceptionHandler {
     public ProblemDetail handleUserNotFoundException(AuthException.UserDuplicatedException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
+
+    @ExceptionHandler(AuthException.WrongSocialTypeException.class)
+    public ProblemDetail handleUserNotFoundException(AuthException.WrongSocialTypeException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
 }

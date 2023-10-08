@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 public class GoogleService implements AuthService {
     @Override
     public boolean supports(String socialType) {
-        return "GOOGLE".equals(socialType);
+        return false;
+//        return "GOOGLE".equals(socialType);
     }
 
     @Override

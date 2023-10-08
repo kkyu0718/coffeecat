@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static com.coffeecat.coffeecatbootauth.AuthException.*;
+
 @Service
 @Slf4j
 public class AuthFacadeService {
@@ -42,6 +44,6 @@ public class AuthFacadeService {
         return List.of(userPasswordService, kakaoService, googleService).stream()
                 .filter(service -> service.supports(socialType))
                 .findAny()
-                .orElseThrow(IllegalArgumentException::new);
+                .orElseThrow(WrongSocialTypeException::new);
     }
 }

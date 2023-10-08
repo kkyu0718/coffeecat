@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 public class KakaoService implements AuthService {
     @Override
     public boolean supports(String socialType) {
-        return "KAKAO".equals(socialType);
+        return false;
+//        return "KAKAO".equals(socialType);
     }
 
     @Override

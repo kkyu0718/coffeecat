@@ -6,6 +6,7 @@ import com.coffeecat.coffeecatbootauth.dto.SignupRequestDto;
 import com.coffeecat.coffeecatbootauth.dto.UserResponseDto;
 import com.coffeecat.coffeecatdatauser.User;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +24,9 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto dto) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto dto, HttpSession httpSession) {
         User user = authFacadeService.login(dto.getUserIdentifier(), dto.getUserPassword(), dto.getUserSocialType());
-        return ResponseEntity.status(HttpStatus.OK).body(UserResponseDto.fromEntity(user));
+        return ResponseEntity.status(HttpStatus.OK).header("token", String.valueOf(user.getUserId())).build();
     }
 
     @PostMapping("/signup")

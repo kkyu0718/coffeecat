@@ -19,4 +19,10 @@ public abstract class AuthException {
             super("Wrong password");
         }
     }
+
+    public static class WrongSocialTypeException extends RuntimeException {
+        public WrongSocialTypeException() {
+            super("Wrong social type");
+        }
+    }
 }
