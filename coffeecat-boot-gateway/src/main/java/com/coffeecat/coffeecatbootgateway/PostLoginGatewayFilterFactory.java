@@ -14,12 +14,10 @@ import reactor.core.publisher.Mono;
 @Component
 public class PostLoginGatewayFilterFactory extends AbstractGatewayFilterFactory<PostLoginGatewayFilterFactory.Config> {
     private final TokenAuthenticationProvider provider;
-    private final ReactiveRedisTemplate<String, String> template;
 
-    public PostLoginGatewayFilterFactory(TokenAuthenticationProvider provider, ReactiveRedisTemplate<String, String> template) {
+    public PostLoginGatewayFilterFactory(TokenAuthenticationProvider provider) {
         super(Config.class);
         this.provider = provider;
-        this.template = template;
     }
 
     @Override

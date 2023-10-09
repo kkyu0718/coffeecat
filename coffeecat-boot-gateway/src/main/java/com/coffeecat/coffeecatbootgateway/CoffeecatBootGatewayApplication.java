@@ -13,18 +13,24 @@ public class CoffeecatBootGatewayApplication {
 
     @Bean
     public RouteLocator customRouteLocator(RouteLocatorBuilder builder,
-                                           PostLoginGatewayFilterFactory postLoginGatewayFilterFactory) {
-        PostLoginGatewayFilterFactory.Config config = new PostLoginGatewayFilterFactory.Config();
+                                           PostLoginGatewayFilterFactory postLoginGatewayFilterFactory,
+                                           AuthenticationGatewayFilterFactory authenticationGatewayFilterFactory) {
+        PostLoginGatewayFilterFactory.Config postLoginGatewayFilterFactoryConfig = new PostLoginGatewayFilterFactory.Config();
         SaveSessionGatewayFilterFactory saveSessionGatewayFilterFactory = new SaveSessionGatewayFilterFactory();
 
+        AuthenticationGatewayFilterFactory.Config authenticationGatewayFilterFactoryConfig = new AuthenticationGatewayFilterFactory.Config();
         return builder.routes()
                 .route("login-route", r -> r.path("/auth/login")
                         .filters(f -> f
                                 .filter(saveSessionGatewayFilterFactory.apply(new Object()))
-                                .filter(postLoginGatewayFilterFactory.apply(config)))
+                                .filter(postLoginGatewayFilterFactory.apply(postLoginGatewayFilterFactoryConfig)))
                         .uri("http://localhost:8081"))
                 .route("auth-route", r -> r.path("/auth/**")
                         .uri("http://localhost:8081")
+                )
+                .route("capsule-route", r -> r.path("/capsule/**")
+                        .filters(f -> f.filter(authenticationGatewayFilterFactory.apply(authenticationGatewayFilterFactoryConfig)))
+                        .uri("http://localhost:8083")
                 )
                 .build();
     }

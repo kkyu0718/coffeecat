@@ -39,7 +39,7 @@ public class TokenAuthenticationProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .get("token", String.class);
+                .get("userId", String.class);
     }
 
     public boolean validate(String token) {
