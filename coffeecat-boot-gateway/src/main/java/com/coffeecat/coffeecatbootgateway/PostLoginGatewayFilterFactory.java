@@ -4,8 +4,6 @@ import io.jsonwebtoken.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.data.redis.core.ReactiveRedisTemplate;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -30,20 +28,11 @@ public class PostLoginGatewayFilterFactory extends AbstractGatewayFilterFactory<
 
                 Assert.notNull(userId);
 
-                log.info("[LoginGatewayFilter] userId {}", userId);
-
                 String token = provider.createToken(userId);
-                log.info("[LoginGatewayFilter] publish token {}", token);
-
-                response.addCookie(ResponseCookie.from("SESSION", token)
-                        .httpOnly(true)
-                        .path("/")
-                        .maxAge(1000)
-                        .build());
 
                 //TODO : chainging 으로 구현 가능할지 확인 필요
-                // save in redis
-                exchange.getSession().mapNotNull(m -> m.getAttributes().put(userId, token)).subscribe();
+                // save redis and pub cookie
+                exchange.getSession().mapNotNull(m -> m.getAttributes().put("userId", userId)).subscribe();
             }));
         };
     }

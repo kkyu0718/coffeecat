@@ -1,6 +1,6 @@
 package com.coffeecat.coffeecatbootauth;
 
-public abstract class AuthException {
+public abstract class AuthException extends RuntimeException {
 
     public static class UserDuplicatedException extends RuntimeException{
         public UserDuplicatedException() {

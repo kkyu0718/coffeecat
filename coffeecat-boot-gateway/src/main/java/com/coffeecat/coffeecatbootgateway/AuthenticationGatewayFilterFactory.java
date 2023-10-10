@@ -6,6 +6,8 @@ import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.WebSession;
+import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
@@ -20,18 +22,22 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
     @Override
     public GatewayFilter apply(Config config) {
         return (exchange, chain) -> {
-            ServerHttpRequest request = exchange.getRequest();
-            String cookie = request.getCookies().getFirst("SESSION").getValue();
-            String userId = null;
+            final ServerHttpRequest request = exchange.getRequest();
 
-            if (provider.validate(cookie)) {
-                userId = provider.authenticate(cookie);
-            }
-
-            Assert.notNull(userId);
-            ServerHttpRequest.Builder builder = request.mutate().header("userId", userId);
-
-            return chain.filter(exchange.mutate().request(builder.build()).build());
+//            String userId = exchange.getSession()
+//                    .mapNotNull(m -> m.getAttributes().get("userId"))
+//                    .map(m -> (String) m)
+//                    .blockOptional()
+//                    .orElseThrow(() -> new RuntimeException("no userId in session - need login"));
+//            ServerHttpRequest.Builder builder = request.mutate().header("userId", "temp");
+//
+//            return chain.filter(exchange.mutate().request(builder.build()).build());
+            return exchange.getSession()
+                    .mapNotNull(m -> (String) m.getAttributes().get("userId"))
+                    .map(m -> request.mutate().header("userId", m))
+                    .map(m -> exchange.mutate().request(m.build()))
+                    .flatMap(m -> chain.filter(m.build()))
+                    .doOnError(m -> new RuntimeException("no userId in session - need login")); //TODO 에러 처리 필
         };
     }
 

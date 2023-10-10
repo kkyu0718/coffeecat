@@ -24,7 +24,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequestDto dto, HttpSession httpSession) {
+    public ResponseEntity<?> login(@RequestBody LoginRequestDto dto) {
         User user = authFacadeService.login(dto.getUserIdentifier(), dto.getUserPassword(), dto.getUserSocialType());
         return ResponseEntity.status(HttpStatus.OK).header("token", String.valueOf(user.getUserId())).build();
     }
