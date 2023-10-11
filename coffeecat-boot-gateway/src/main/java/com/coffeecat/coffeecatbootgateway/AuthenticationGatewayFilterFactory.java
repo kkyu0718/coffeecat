@@ -12,11 +12,9 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFactory<AuthenticationGatewayFilterFactory.Config> {
-    private final TokenAuthenticationProvider provider;
 
-    public AuthenticationGatewayFilterFactory(TokenAuthenticationProvider provider) {
+    public AuthenticationGatewayFilterFactory() {
         super(Config.class);
-        this.provider = provider;
     }
 
     @Override
@@ -24,20 +22,12 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
         return (exchange, chain) -> {
             final ServerHttpRequest request = exchange.getRequest();
 
-//            String userId = exchange.getSession()
-//                    .mapNotNull(m -> m.getAttributes().get("userId"))
-//                    .map(m -> (String) m)
-//                    .blockOptional()
-//                    .orElseThrow(() -> new RuntimeException("no userId in session - need login"));
-//            ServerHttpRequest.Builder builder = request.mutate().header("userId", "temp");
-//
-//            return chain.filter(exchange.mutate().request(builder.build()).build());
             return exchange.getSession()
                     .mapNotNull(m -> (String) m.getAttributes().get("userId"))
                     .map(m -> request.mutate().header("userId", m))
                     .map(m -> exchange.mutate().request(m.build()))
                     .flatMap(m -> chain.filter(m.build()))
-                    .doOnError(m -> new RuntimeException("no userId in session - need login")); //TODO 에러 처리 필
+                    .onErrorMap(ex -> new BusinessException.NoSessionException());
         };
     }
 

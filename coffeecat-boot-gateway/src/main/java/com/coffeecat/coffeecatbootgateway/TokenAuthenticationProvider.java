@@ -11,7 +11,7 @@ import java.security.Key;
 import java.time.LocalDateTime;
 import java.util.Date;
 
-@Component
+//@Component
 @Slf4j
 public class TokenAuthenticationProvider {
     private final Key key;

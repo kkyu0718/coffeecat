@@ -4,14 +4,13 @@ import com.coffeecat.coffeecatbootauth.authservice.AuthService;
 import com.coffeecat.coffeecatbootauth.authservice.GoogleService;
 import com.coffeecat.coffeecatbootauth.authservice.KakaoService;
 import com.coffeecat.coffeecatbootauth.authservice.UserPasswordService;
-import com.coffeecat.coffeecatbootauth.dto.UserResponseDto;
 import com.coffeecat.coffeecatdatauser.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static com.coffeecat.coffeecatbootauth.AuthException.*;
+import static com.coffeecat.coffeecatbootauth.BusinessException.*;
 
 @Service
 @Slf4j

@@ -11,11 +11,9 @@ import reactor.core.publisher.Mono;
 @Slf4j
 @Component
 public class PostLoginGatewayFilterFactory extends AbstractGatewayFilterFactory<PostLoginGatewayFilterFactory.Config> {
-    private final TokenAuthenticationProvider provider;
 
-    public PostLoginGatewayFilterFactory(TokenAuthenticationProvider provider) {
+    public PostLoginGatewayFilterFactory() {
         super(Config.class);
-        this.provider = provider;
     }
 
     @Override
@@ -27,8 +25,6 @@ public class PostLoginGatewayFilterFactory extends AbstractGatewayFilterFactory<
                 String userId = response.getHeaders().getFirst("token");
 
                 Assert.notNull(userId);
-
-                String token = provider.createToken(userId);
 
                 //TODO : chainging 으로 구현 가능할지 확인 필요
                 // save redis and pub cookie

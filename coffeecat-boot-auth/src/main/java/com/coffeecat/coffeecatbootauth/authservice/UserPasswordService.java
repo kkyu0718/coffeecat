@@ -1,6 +1,6 @@
 package com.coffeecat.coffeecatbootauth.authservice;
 
-import com.coffeecat.coffeecatbootauth.AuthException;
+import com.coffeecat.coffeecatbootauth.BusinessException;
 import com.coffeecat.coffeecatdatauser.User;
 import com.coffeecat.coffeecatdatauser.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +28,10 @@ public class UserPasswordService implements AuthService {
     @Override
     public User login(String userIdentifier, String password) {
         // find user from db
-        User user = userService.findUserByUserIdentifier(userIdentifier).orElseThrow(AuthException.UserNotFoundByNicknameException::new);
+        User user = userService.findUserByUserIdentifier(userIdentifier).orElseThrow(BusinessException.UserNotFoundException::new);
 
         if(!checkPassword(password, user.getUserPassword())) {
-            throw new AuthException.WrongPasswordException();
+            throw new BusinessException.WrongPasswordException();
         }
         return user;
     }
@@ -45,7 +45,7 @@ public class UserPasswordService implements AuthService {
     @Override
     public User signup(String userIdentifier, String userPassword, String userSocialType) {
         if(userService.findUserByUserIdentifier(userIdentifier).isPresent()){
-            throw new AuthException.UserDuplicatedException();
+            throw new BusinessException.UserDuplicatedException();
         }
 
         return userService.createUser(userIdentifier, passwordEncoder.encode(userPassword), userSocialType);
