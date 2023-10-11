@@ -22,6 +22,7 @@ public class User {
     private int userId;
     private String userIdentifier;
     private String userPassword;
+    @Enumerated(EnumType.STRING)
     private SocialType userSocialType;
     @CreatedDate
     private LocalDateTime createdAt;
