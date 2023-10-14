@@ -1,7 +1,6 @@
 package com.coffeecat.coffeecatdatareview;
 
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,16 +10,45 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
 @ContextConfiguration(classes = JpaTestConfig.class)
 class ReviewServiceTest {
     @Autowired
     private ReviewRepository reviewRepository;
+    private int count = 100000;
 
     @Test
     void findAll() {
+        long startTime = System.currentTimeMillis();
+
+        List<Review> reviews = IntStream.rangeClosed(1, count)
+                .mapToObj(i -> getReview()).toList();
+
+        reviewRepository.saveAll(reviews);
+
+        List<Review> saved = reviewRepository.findAll();
+        Assertions.assertThat(saved).isNotNull();
+        System.out.println("duration = " + (System.currentTimeMillis() - startTime));
+    }
+
+    @Test
+    void findAllStream() {
+        long startTime = System.currentTimeMillis();
+
+        List<Review> reviews = IntStream.rangeClosed(1, count)
+                .mapToObj(i -> getReview()).toList();
+
+        reviewRepository.saveAllAndFlush(reviews);
+
+        List<Review> saved = reviewRepository.findAllReviewStream().collect(Collectors.toList());
+        Assertions.assertThat(saved).isNotNull();
+        System.out.println("duration = " + (System.currentTimeMillis() - startTime));
+    }
+
+    private static Review getReview() {
         Review review = Review.builder()
                 .reviewRecommend(false)
                 .capsuleId(1)
@@ -33,8 +61,6 @@ class ReviewServiceTest {
                         .reviewRoasting(4)
                         .build())
                 .build();
-        reviewRepository.save(review);
-        List<Review> all = reviewRepository.findAll();
-        Assertions.assertThat(all).isNotNull();
+        return review;
     }
 }
