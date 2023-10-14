@@ -1,6 +1,5 @@
 package com.coffeecat.coffeecatbootgateway;
 
-import io.jsonwebtoken.lang.Assert;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -23,8 +22,6 @@ public class PostLoginGatewayFilterFactory extends AbstractGatewayFilterFactory<
             return chain.filter(exchange).then(Mono.fromRunnable(() -> {
                 ServerHttpResponse response = exchange.getResponse();
                 String userId = response.getHeaders().getFirst("token");
-
-                Assert.notNull(userId);
 
                 //TODO : chainging 으로 구현 가능할지 확인 필요
                 // save redis and pub cookie

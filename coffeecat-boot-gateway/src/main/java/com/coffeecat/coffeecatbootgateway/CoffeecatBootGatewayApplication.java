@@ -28,10 +28,11 @@ public class CoffeecatBootGatewayApplication {
                 .route("auth-route", r -> r.path("/auth/**")
                         .uri("http://localhost:8081")
                 )
-                .route("capsule-route", r -> r.path("/capsule/**")
+                .route("brand-route", r -> r.path("/brand/**")
                         .filters(f -> f.filter(authenticationGatewayFilterFactory.apply(authenticationGatewayFilterFactoryConfig)))
                         .uri("http://localhost:8083")
                 )
+                //TODO route eroor handle
                 .build();
     }
 

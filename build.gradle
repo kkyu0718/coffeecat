@@ -118,6 +118,11 @@ project(':coffeecat-boot-gateway') {
 
         implementation 'org.springframework.session:spring-session-data-redis'
         implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+
+        testImplementation 'org.mock-server:mockserver-netty:5.11.1'
+        testImplementation 'org.mock-server:mockserver-client-java:5.11.1'
+        testImplementation 'org.springframework.session:spring-session-data-redis'
+        testImplementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
     }
 
     dependencyManagement {
