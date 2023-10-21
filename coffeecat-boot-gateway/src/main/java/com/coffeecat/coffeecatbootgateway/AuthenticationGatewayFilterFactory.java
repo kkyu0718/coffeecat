@@ -23,7 +23,7 @@ public class AuthenticationGatewayFilterFactory extends AbstractGatewayFilterFac
             final ServerHttpRequest request = exchange.getRequest();
 
             return exchange.getSession()
-                    .doOnEach(m -> System.out.println("WebSession = " + m.get().getId()))
+//                    .doOnEach(m -> System.out.println("WebSession = " + m.get().getId()))
                     .mapNotNull(m -> (String) m.getAttributes().get("userId"))
                     .map(m -> request.mutate().header("userId", m))
                     .map(m -> exchange.mutate().request(m.build()))

@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Slf4j
-@RequestMapping("/capsule")
-public class CapsuleController {
+@RequestMapping("/brand")
+public class BrandController {
     @GetMapping("/hello")
     public String hello(@RequestHeader("userId") int userId) {
         log.info("capsule controller userId {}", userId);

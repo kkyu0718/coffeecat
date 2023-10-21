@@ -6,10 +6,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-public class CoffeecatBootCapsuleApplication {
+public class CoffeecatBootBrandApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(CoffeecatBootCapsuleApplication.class, args);
+        SpringApplication.run(CoffeecatBootBrandApplication.class, args);
     }
 
 }

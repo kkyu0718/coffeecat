@@ -22,7 +22,6 @@ public class CoffeecatBootGatewayApplication {
         return builder.routes()
                 .route("login-route", r -> r.path("/auth/login")
                         .filters(f -> f
-                                .filter(saveSessionGatewayFilterFactory.apply(new Object()))
                                 .filter(postLoginGatewayFilterFactory.apply(postLoginGatewayFilterFactoryConfig)))
                         .uri("http://localhost:8081"))
                 .route("auth-route", r -> r.path("/auth/**")
