@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
+import org.springframework.mock.web.server.MockServerWebExchange;
 import org.springframework.test.annotation.DirtiesContext;
 import redis.embedded.RedisServer;
 
@@ -80,6 +81,9 @@ public class PostLoginGatewayFilterTest extends BaseWebClientTests {
         log.info("Cookie = {}", cookie.getValue());
 
         //then
+        //TODO
+        //  1. mutate 된 request가 아니라 이전의 request가 들어가기 때문에 test result fail 됨
+        //  2. MockServerWebExchange - ServerWebExchange 생성 과정에서 getSession() 이 발생하기 때문에 Mock 되어서는 안되는 것
         HttpHeaders requestHeaders = testClient.get()
                 .uri("/brand")
                 .exchange()
