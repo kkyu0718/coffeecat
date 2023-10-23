@@ -1,18 +1,29 @@
 package com.coffeecat.coffeecatbootbrand;
 
+import com.coffeecat.coffeecatdatabrand.entity.Brand;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @Slf4j
-@RequestMapping("/brand")
+@RequestMapping("/brands")
 public class BrandController {
-    @GetMapping("/hello")
-    public String hello(@RequestHeader("userId") int userId) {
-        log.info("capsule controller userId {}", userId);
-        return "hello";
+    private BrandFacadeService brandFacadeService;
+    public BrandController(BrandFacadeService brandFacadeService) {
+        this.brandFacadeService = brandFacadeService;
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Brand>> getAllBrands() {
+        return ResponseEntity.status(HttpStatus.OK).body(brandFacadeService.findAllBrand());
+    }
+
+    @GetMapping("/{brandId}")
+    public ResponseEntity<Brand> getBrandById(@PathVariable int brandId) {
+        return ResponseEntity.status(HttpStatus.OK).body(brandFacadeService.findBrandByBrandId(brandId));
     }
 }
