@@ -7,6 +7,7 @@ import com.coffeecat.coffeecatbootauth.authservice.UserPasswordService;
 import com.coffeecat.coffeecatdatauser.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public class AuthFacadeService {
         return authService.login(userIdentifier, userPassword);
     }
 
+    @Transactional
     public User signup(String userIdentifier, String userPassword, String userSocialType) {
         AuthService authService = authServiceFactory(userSocialType);
         log.info("[AuthFacadeService] signup {}", authService);
